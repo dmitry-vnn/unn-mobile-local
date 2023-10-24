@@ -1,0 +1,1 @@
+const String sessionTokenHeaderName = "PHPSESSID";
