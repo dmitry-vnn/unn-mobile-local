@@ -26,7 +26,7 @@ class AuthService {
 			return true;
 		}
 
-		return tryAuthorize(_cachedAuthDataRepo.loadUserCredentials() as UserCredentialsDto);
+		return await tryAuthorize(await _cachedAuthDataRepo.loadUserCredentials() as UserCredentialsDto);
 	}
 
 	Future<bool> tryAuthorize(UserCredentialsDto userCredentialsDto) async {
