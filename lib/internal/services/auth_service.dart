@@ -3,11 +3,9 @@ import 'dart:io';
 
 import 'package:flutter_app_second_attempt/internal/dto/auth/user_credentials_dto.dart';
 import 'package:flutter_app_second_attempt/internal/dto/auth/user_session_token_dto.dart';
-import 'package:flutter_app_second_attempt/internal/http/http_request_sender.dart';
+import 'package:flutter_app_second_attempt/internal/http/http_helper.dart';
 import 'package:flutter_app_second_attempt/internal/http/portal_http_constants.dart';
 import 'package:flutter_app_second_attempt/internal/repositories/auth_data_cached_repo.dart';
-import 'package:flutter_app_second_attempt/internal/repositories/auth_data_repo.dart';
-import 'package:injector/injector.dart';
 
 class AuthService {
 
