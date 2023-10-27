@@ -11,33 +11,34 @@ class Application extends StatelessWidget {
 	Widget build(BuildContext context) {
 
 		final authService = Injector.appInstance.get<AuthService>();
-		final screenRouter = Injector.appInstance.get<ScreenRouting>();
 
 		return MaterialApp(
-			initialRoute: ScreenType.home.path,
+			initialRoute: ScreenRoutePath.home.path,
 			routes: {
-				for (final route in screenRouter.routes.entries
-					.where((record) => record.key != ScreenType.logo.path))
 
-					route.key: (ctx) => FutureBuilder<bool>(
+				for (final unprotectRoute in ScreenRoutePath.values.where((route) => !route.authorizedOnly))
+
+					unprotectRoute.path: (context) => unprotectRoute.screen(),
+
+				for (final protectRoute in ScreenRoutePath.values.where((route) => route.authorizedOnly))
+
+					protectRoute.path: (ctx) => FutureBuilder<bool>(
 						future: authService.isAuthorized(),
 						builder: (ctx, asyncSnapshot) {
 
 							if (!asyncSnapshot.hasData) {
-								return ScreenType.logo.screen();
+								return ScreenRoutePath.logo.screen();
 							}
 
 							final isAuthorized = asyncSnapshot.data as bool;
 
 							if (!isAuthorized) {
-								return ScreenType.login.screen();
+								return ScreenRoutePath.login.screen();
 							}
 
-							return route.value;
+							return protectRoute.screen();
 						}
-					),
-
-				ScreenType.logo.path: (ctx) => ScreenType.logo.screen()
+					)
 			}
 		);
 	}
