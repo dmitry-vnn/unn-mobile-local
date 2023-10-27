@@ -13,7 +13,8 @@ class Application extends StatelessWidget {
 		final authService = Injector.appInstance.get<AuthService>();
 
 		return MaterialApp(
-			initialRoute: ScreenRoutePath.home.path,
+			debugShowCheckedModeBanner: false,
+			initialRoute: ScreenRoutePath.logo.path,
 			routes: {
 
 				for (final unprotectRoute in ScreenRoutePath.values.where((route) => !route.authorizedOnly))
