@@ -25,20 +25,9 @@ class HttpRequestSender {
 
 	Future<HttpClientResponse> postForm(Map<String, dynamic> body) async {
 
-		final httpClient = HttpClient();
-
-		//client request
-		final request = await httpClient.postUrl(_createURI());
+		final request = await _prepareHttpClientRequest(_HttpMethod.post);
 
 		request.headers.add("Content-Type", "application/x-www-form-urlencoded");
-
-		_headers.forEach((key, value) {
-			request.headers.add(key, value);
-		});
-
-		_cookies.forEach((key, value) {
-			request.cookies.add(Cookie(key, value));
-		});
 
 		//add body
 		request.add(
@@ -56,4 +45,39 @@ class HttpRequestSender {
 			.replace(queryParameters: _queryParams);
 	}
 
+  	Future<HttpClientResponse> get() async {
+
+		final request = await _prepareHttpClientRequest(_HttpMethod.get);
+
+		return await request.close();
+
+  	}
+
+  	Future<HttpClientRequest> _prepareHttpClientRequest(_HttpMethod method) async {
+		final httpClient = HttpClient();
+
+		//client request
+		final request = await httpClient.openUrl(method.name, _createURI());
+
+		_headers.forEach((key, value) {
+			request.headers.add(key, value);
+		});
+
+		_cookies.forEach((key, value) {
+			request.cookies.add(Cookie(key, value));
+		});
+
+		return request;
+	}
+
+}
+
+Future<String> responseToStringBody(HttpClientResponse response) async {
+	return await response.transform(utf8.decoder).join();
+}
+
+
+enum _HttpMethod {
+	get,
+	post,
 }
