@@ -7,10 +7,8 @@ class LogoScreen extends StatelessWidget {
   	Widget build(BuildContext context) {
 		return const Scaffold(
 			body: Center(
-				child:
-					Text("Logo page", style: TextStyle(
-						fontSize: 30
-					)
+				child: Image(
+					image: AssetImage("assets/images/logo.png")
 				)
 			)
 		);
