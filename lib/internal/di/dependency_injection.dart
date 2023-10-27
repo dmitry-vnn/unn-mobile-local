@@ -7,7 +7,7 @@ import 'package:injector/injector.dart';
 void registerDependencies() {
 	Injector injector = Injector.appInstance;
 
-	injector.registerSingleton<ScreenRouting>(() => ScreenRouting());
+	injector.registerSingleton<ScreenRouter>(() => ScreenRouter());
 	injector.registerSingleton<AuthDataStorageRepository>(() => AuthDataStorageRepository());
 
 	injector.registerSingleton<AuthDataCachedRepository>(() =>

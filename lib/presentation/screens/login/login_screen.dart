@@ -85,7 +85,7 @@ class LoginScreenState extends State<LoginScreen> {
 
 										if (authSuccess) {
 											setState(() {
-												Navigator.pushNamed(context, ScreenType.home.path);
+												Navigator.pushNamed(context, ScreenRoutePath.home.path);
 											});
 											return;
 										}

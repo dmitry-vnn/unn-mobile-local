@@ -4,22 +4,22 @@ import 'package:flutter_app_second_attempt/presentation/screens/logo_screen.dart
 import 'package:flutter_app_second_attempt/presentation/screens/navigation/live.dart';
 import 'package:injector/injector.dart';
 
-class ScreenRouting {
+class ScreenRouter {
 
-	final Map<String, Widget> _routes;
+	final Map<ScreenRoutePath, Widget> _routes;
 
-	Map<String, Widget> get routes => _routes;
+	Map<ScreenRoutePath, Widget> get routes => _routes;
 
-	ScreenRouting(): _routes = {
-		ScreenType.login.path: LoginScreen(),
+	ScreenRouter(): _routes = {
+		ScreenRoutePath.login: const LoginScreen(),
 
-		ScreenType.home.path: const LiveScreen(),
+		ScreenRoutePath.home: const LiveScreen(),
 
-		ScreenType.logo.path: const LogoScreen(),
+		ScreenRoutePath.logo: const LogoScreen(),
 	};
 
-	Widget operator [](ScreenType screenType) {
-		final screen = _routes[screenType.path];
+	Widget operator [](ScreenRoutePath screenType) {
+		final screen = _routes[screenType];
 
 		if (screen == null) {
 			throw Exception("Unknown screen type: ${screenType.path}");
@@ -29,19 +29,21 @@ class ScreenRouting {
 	}
 }
 
-enum ScreenType {
+enum ScreenRoutePath {
 
-	login("/login"),
+	logo("/logo", authorizedOnly: false),
 
-	home("/home"),
+	login("/login", authorizedOnly: false),
 
-	logo("/logo");
+	home("/home");
 
 	final String path;
-	const ScreenType(this.path);
+	final bool authorizedOnly;
+
+	const ScreenRoutePath(this.path, {this.authorizedOnly = true});
 
 	Widget screen() {
-		final screenRouting = Injector.appInstance.get<ScreenRouting>();
+		final screenRouting = Injector.appInstance.get<ScreenRouter>();
 		return screenRouting[this];
 	}
 }
